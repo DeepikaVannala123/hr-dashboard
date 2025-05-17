@@ -14,6 +14,8 @@ app.use("/api", employeeRoutes);
 const announcementRoutes = require("./routes/announcement");
 app.use("/api", announcementRoutes);
 
+const companiesRoutes = require("./routes/companyTenants.js");
+app.use("/api", companiesRoutes);
 app.listen(PORT, () => {
   console.log(`Mock API server running on http://localhost:${PORT}`);
 });
