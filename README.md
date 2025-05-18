@@ -72,3 +72,72 @@ Please, Ensure Docker is installed: https://www.docker.com/products/docker-deskt
 Frontend connects to backend server at http://localhost:5000 — this is hardcoded;
 
 All data is mocked (no real DB)
+
+** Architecture Overview**
+The HR dashboard is divided into frontend and backend services.
+
+Frontend (React + MUI)
+Role-based dynamic routing:
+Users are routed to Admin or Employee based on login.
+
+Dashboard layout:
+
+Company Switcher: A dropdown to switch between tenant companies.
+
+Summary Cards: Displays 4 KPIs: Total Employees, Attendance, Leave Requests, Payroll Time.
+
+Employee Table: Lists employees with a "View" button that opens a modal.
+
+Modal View:
+
+Pie chart of used vs remaining leaves
+
+Table of leave types with used and remaining days
+
+Charts:
+
+Department-wise leave utilization (Pie Chart)
+
+Department-wise headcount (Bar Chart)
+
+Announcements Feed: Company announcements listed.
+
+Backend (Node + Express)
+Mock API routes for:
+
+/api/:company/employees
+
+/api/:company/announcements
+
+/api/tenants
+
+Serves static mock data to simulate multi-tenancy.
+
+State Management
+Context API used for global state: selected company, auth, etc.
+
+** Trade-offs & Future Improvements**
+🧪 Trade-offs
+Mock Data Only: No database integration; all data is mocked via JSON files for speed and demo simplicity.
+
+Hardcoded Auth: Role and user are hardcoded; no real login flow.
+
+API Endpoint Static: Frontend API base URL is hardcoded (http://localhost:5000), not environment-based.
+
+
+**Future Improvements**
+- Add real authentication & JWT-based auth
+
+- Integrate with a real database (MongoDB, PostgreSQL)
+
+- Add filters for date ranges, departments
+
+- More granular charts (e.g., attendance trends)
+
+- Export data (CSV/PDF)
+
+- Add i18n for multilingual support
+
+- Add caching or debounce on company switch to avoid unnecessary calls
+
+- UI refinements with dark mode toggle
