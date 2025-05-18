@@ -1,5 +1,3 @@
-const express = require("express");
-const router = express.Router();
 const employeesData ={
 zepto:[
   {
@@ -1993,18 +1991,6 @@ zepto:[
     ]
   }
 ]
-
 }
 
-
-
-router.get("/:company/employees", (req, res) => {
-  const { company } = req.params;
-  const employees = employeesData[company];
-  if (!employees) {
-    return res.status(404).json({ message: "Company not found" });
-  }
-  res.json(employees);
-});
-
-module.exports = router;
+module.exports= employeesData;

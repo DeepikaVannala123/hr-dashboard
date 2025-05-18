@@ -4,12 +4,12 @@ import { AppBar, Toolbar, Typography, IconButton, Avatar, Menu, MenuItem, Box } 
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext'; // Assuming you have this hook to get auth info
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
-  const { user, logout } = useAuth(); // user = { username, role }
+  const { user, logout } = useAuth(); // user = { username }
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);

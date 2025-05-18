@@ -6,14 +6,11 @@ import PeopleIcon from '@mui/icons-material/People';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
-interface CompanySwitcherProps {
-  companies: Record<string, { name: string }>;
-}
+
 const CompanySwitcher = ({ companies }: { companies: Array<{ value: string; name?: string;totalEmployees?:number;totalAttendance:number; leaveRequests:number; payrollTime:string}> }) => {
   const { state, dispatch } = useContext(AppContext);
 const summary = companies.find((e: any) => e.value === state.selectedCompany);
 
-console.log(summary);
  return (
   <>
     {/* Breadcrumbs and Dropdown in one row */}

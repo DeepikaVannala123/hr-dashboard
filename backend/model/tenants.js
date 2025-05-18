@@ -1,8 +1,4 @@
-// backend/routes/tenants.js
-const express = require("express");
-const router = express.Router();
-
-const tenantsData = [
+const tenants = [
   { value:"zepto",  totalEmployees:20,
     totalAttendance: 19,
   leaveRequests:1,
@@ -33,12 +29,4 @@ const tenantsData = [
        }
 
 ]
-
-
-// GET all tenants (company summaries)
-router.get("/tenants", (req, res) => {
-  res.json(tenantsData); // ✅ return full list
-});
-
-
-module.exports = router;
+module.exports= tenants;

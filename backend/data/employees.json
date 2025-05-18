@@ -1,8 +1,0 @@
-{
-  "companyA": [
-    { "id": 1, "name": "John", "department": "Engineering", "designation": "Developer", "status": "active" }
-  ],
-  "companyB": [
-    { "id": 2, "name": "Jane", "department": "Marketing", "designation": "Manager", "status": "on leave" }
-  ]
-}

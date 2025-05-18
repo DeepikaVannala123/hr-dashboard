@@ -1,31 +1,27 @@
-// backend/routes/announcement.js
-const express = require("express");
-const router = express.Router();
-
-const announcementsData = {
-  zepto: [
+ const announcementsData = {
+  "zepto": [
     {
-      id: 1,
-      title: "Zepto All Hands Meeting",
-      author: "HR Manager",
-      timestamp: "2025-05-01T10:00:00Z",
+      "id": 1,
+      "title": "Zepto All Hands Meeting",
+      "author": "HR Manager",
+      "timestamp": "2025-05-01T10:00:00Z",
     },
     {
-      id: 2,
-      title: "Zepto Tech Week",
-      author: "CTO",
-      timestamp: "2025-05-07T14:30:00Z",
+      "id": 2,
+      "title": "Zepto Tech Week",
+      "author": "CTO",
+      "timestamp": "2025-05-07T14:30:00Z",
     },
   ],
-  acme: [
+  "acme": [
     {
-      id: 1,
-      title: "Acme Product Launch",
-      author: "CEO",
-      timestamp: "2025-05-03T09:00:00Z",
+      "id": 1,
+      "title": "Acme Product Launch",
+      "author": "CEO",
+      "timestamp": "2025-05-03T09:00:00Z",
     },
   ],
-   swiggy: [
+   "swiggy": [
          {
             "id": 1,
             "title": "New Project Launched",
@@ -96,15 +92,4 @@ const announcementsData = {
       ]
 
 };
-
-
-router.get("/:company/announcements", (req, res) => {
-  const { company } = req.params;
-  const announcements = announcementsData[company];
-  if (!announcements) {
-    return res.status(404).json({ message: "Company not found" });
-  }
-  res.json(announcements);
-});
-
-module.exports = router;
+module.exports= announcementsData

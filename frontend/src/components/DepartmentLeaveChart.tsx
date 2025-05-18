@@ -3,6 +3,7 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { Box, Paper, Typography } from '@mui/material';
 
+// Employee interface for type safety
 interface Employee {
   id: number;
   name: string;
@@ -14,6 +15,7 @@ interface Employee {
   joiningDate: string;
 }
 
+// Props interface expects an array of employees
 interface Props {
   employees: Employee[];
 }
@@ -23,6 +25,7 @@ const DepartmentLeaveChart: React.FC<Props> = ({ employees }) => {
   const leaveMap: Record<string, number> = {};
   const headcountMap: Record<string, number> = {};
 
+  // Aggregate used leaves per department
   employees.forEach(({ department, usedLeaves }) => {
     if (!leaveMap[department]) {
       leaveMap[department] = 0;
@@ -30,6 +33,7 @@ const DepartmentLeaveChart: React.FC<Props> = ({ employees }) => {
     leaveMap[department] += usedLeaves;
   });
 
+  // Aggregate headcount per department
   employees.forEach(({ department }) => {
     if (!headcountMap[department]) {
       headcountMap[department] = 0;
@@ -37,95 +41,99 @@ const DepartmentLeaveChart: React.FC<Props> = ({ employees }) => {
     headcountMap[department] += 1;
   });
 
+  // Prepare data for pie chart (leave utilization)
   const leavePieData = Object.entries(leaveMap).map(([dept, leaves]) => ({
     name: dept,
     y: leaves,
   }));
 
+  // Prepare categories and data for bar chart (headcount)
   const headcountCategories = Object.keys(headcountMap);
   const headcountData = Object.values(headcountMap);
 
+  // Total number of employees
   const totalEmployees = employees.length;
 
-const leavePieOptions: Highcharts.Options = {
-  chart: {
-    type: 'pie',
- events: {
-  render() {
-    const chart = this;
+  // Highcharts options for the donut (pie) chart
+  const leavePieOptions: Highcharts.Options = {
+    chart: {
+      type: 'pie',
+      events: {
+        // Custom render event to show total employees in the center
+        render() {
+          const chart = this;
 
-    const centerX = chart.plotWidth / 2 + chart.plotLeft;
-    const centerY = chart.plotHeight / 2 + chart.plotTop;
+          const centerX = chart.plotWidth / 2 + chart.plotLeft;
+          const centerY = chart.plotHeight / 2 + chart.plotTop;
 
-    const html = `
-      <div style="text-align: center;">
-        <div style="font-size: 12px; color: #666;">Total Employees</div>
-        <div style="font-size: 22px; font-weight: bold; color: #000;">${totalEmployees}</div>
-      </div>
-    `;
+          const html = `
+            <div style="text-align: center;">
+              <div style="font-size: 12px; color: #666;">Total Employees</div>
+              <div style="font-size: 22px; font-weight: bold; color: #000;">${totalEmployees}</div>
+            </div>
+          `;
 
-    // Destroy old label if it exists
-    if ((chart as any).centerLabel) {
-      (chart as any).centerLabel.destroy();
-    }
+          // Destroy old label if it exists
+          if ((chart as any).centerLabel) {
+            (chart as any).centerLabel.destroy();
+          }
 
-    (chart as any).centerLabel = chart.renderer
-      .label(html, centerX - 50, centerY - 30, 'rect', undefined, undefined, true) // `true` enables useHTML
-      .attr({
-        padding: 0,
-        zIndex: 5,
-      })
-      .css({
-        color: '#000',
-      })
-      .add();
-  },
-},
-
-  },
-  
-  title: {
-    text: '',
-  },
-  tooltip: {
-    pointFormat: '<b>{point.name}</b>: {point.y} leaves',
-  },
-  plotOptions: {
-    pie: {
-      allowPointSelect: true,
-      cursor: 'pointer',
-      innerSize: '60%', // Donut chart
-      size:"70%",
-      dataLabels: {
-        enabled: true,
-        format: '{point.name}: {point.y}',
+          // Add new label in the center of the donut
+          (chart as any).centerLabel = chart.renderer
+            .label(html, centerX - 50, centerY - 30, 'rect', undefined, undefined, true) // `true` enables useHTML
+            .attr({
+              padding: 0,
+              zIndex: 5,
+            })
+            .css({
+              color: '#000',
+            })
+            .add();
+        },
       },
     },
-  },
-  legend: {
-    useHTML: true,
-    align: 'center',
-    verticalAlign: 'bottom',
-    layout: 'vertical',
-    itemMarginBottom: 8,
-    labelFormatter: function () {
-      return'<b>{point.name}</b>: {point.y} leaves';
+    title: {
+      text: '',
     },
-    enabled:true
-  },
-  series: [
-    {
-      name: 'Used Leaves',
-      type: 'pie',
-      data: leavePieData,
+    tooltip: {
+      pointFormat: '<b>{point.name}</b>: {point.y} leaves',
     },
-  ],
-  credits: {
-    enabled: false,
-  },
-};
+    plotOptions: {
+      pie: {
+        allowPointSelect: true,
+        cursor: 'pointer',
+        innerSize: '60%', // Donut chart
+        size: "70%",
+        dataLabels: {
+          enabled: true,
+          format: '{point.name}: {point.y}',
+        },
+      },
+    },
+    legend: {
+      useHTML: true,
+      align: 'center',
+      verticalAlign: 'bottom',
+      layout: 'vertical',
+      itemMarginBottom: 8,
+      labelFormatter: function () {
+        return '<b>{point.name}</b>: {point.y} leaves';
+      },
+      enabled: true,
+    },
+    series: [
+      {
+        name: 'Used Leaves',
+        type: 'pie',
+        data: leavePieData,
+      },
+    ],
+    credits: {
+      enabled: false,
+    },
+  };
 
-
+  // Highcharts options for the bar (column) chart
   const headcountBarOptions: Highcharts.Options = {
     chart: {
       type: 'column',
@@ -172,28 +180,30 @@ const leavePieOptions: Highcharts.Options = {
     },
   };
 
+  // Render the two charts side by side (responsive)
   return (
-  <Box mb={4}>
-  <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} gap={2}>
-    <Box flex={{ xs: 1, md: 0.4 }}>
-      <Paper elevation={3} sx={{ p: 2 }}>
-        <Typography color="primary" variant="h6" mb={2} sx={{textAlign:'center', fontWeight:'bold'}} gutterBottom>
-          Department-Wise Leave Utilization
-        </Typography>
-        <HighchartsReact highcharts={Highcharts} options={leavePieOptions} />
-      </Paper>
+    <Box mb={4}>
+      <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} gap={2}>
+        {/* Pie/Donut Chart: Leave Utilization */}
+        <Box flex={{ xs: 1, md: 0.4 }}>
+          <Paper elevation={3} sx={{ p: 2 }}>
+            <Typography color="primary" variant="h6" mb={2} sx={{ textAlign: 'center', fontWeight: 'bold' }} gutterBottom>
+              Department-Wise Leave Utilization
+            </Typography>
+            <HighchartsReact highcharts={Highcharts} options={leavePieOptions} />
+          </Paper>
+        </Box>
+        {/* Bar Chart: Employee Headcount */}
+        <Box flex={{ xs: 1, md: 0.6 }}>
+          <Paper elevation={3} sx={{ p: 2 }}>
+            <Typography gutterBottom color="primary" variant="h6" mb={2} sx={{ textAlign: 'center', fontWeight: 'bold' }}>
+              Department-Wise Employee Headcount
+            </Typography>
+            <HighchartsReact highcharts={Highcharts} options={headcountBarOptions} />
+          </Paper>
+        </Box>
+      </Box>
     </Box>
-    <Box flex={{ xs: 1, md: 0.6 }}>
-      <Paper elevation={3} sx={{ p: 2 }}>
-        <Typography  gutterBottom color="primary" variant="h6" mb={2} sx={{textAlign:'center', fontWeight:'bold'}}>
-          Department-Wise Employee Headcount
-        </Typography>
-        <HighchartsReact highcharts={Highcharts} options={headcountBarOptions} />
-      </Paper>
-    </Box>
-  </Box>
-</Box>
-
   );
 };
 

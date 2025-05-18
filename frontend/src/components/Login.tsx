@@ -1,14 +1,16 @@
-import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
-import { Box, Button, Card, CardContent, Stack, Typography } from "@mui/material";
+import { useAuth } from "../context/AuthContext"; // Import custom authentication context
+import { useNavigate } from "react-router-dom"; // Import navigation hook from React Router
+import { Box, Button, Card, CardContent, Stack, Typography } from "@mui/material"; // Import MUI components
 
 const Login = () => {
-  const { login } = useAuth();
-  const navigate = useNavigate();
+  const { login } = useAuth(); // Get login function from AuthContext
+  const navigate = useNavigate(); // Get navigation function
 
+  // Handle login for both admin and employee roles
   const handleLogin = (role: "admin" | "employee") => {
+    // Call login with user info based on role
     login({ name: role === "admin" ? "Admin User" : "Employee User", role });
-    navigate("/");
+    navigate("/"); // Redirect to home page after login
   };
 
   return (
@@ -31,9 +33,11 @@ const Login = () => {
 
     {/* Buttons Side by Side */}
     <Stack direction="row" spacing={2} justifyContent="center">
+      {/* Admin login button */}
       <Button variant="contained" onClick={() => handleLogin("admin")}>
         Admin
       </Button>
+      {/* Employee login button */}
       <Button variant="contained" onClick={() => handleLogin("employee")}>
         Employee
       </Button>
