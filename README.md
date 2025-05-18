@@ -1,8 +1,8 @@
 # 🌐 Multi-Tenant HR Dashboard
 
-A scalable HR dashboard with dynamic company switching — built using **React**, **Material UI**, **Highcharts**, and **Express.js**. Supports role-based access, real-time UI updates, and containerized deployment via Docker.
+HR Dashboard for a hypothetical company with multi-tenant support.
 ---
-
+A scalable HR dashboard with dynamic company switching — built using **React**, **Material UI**, **Highcharts**, and **Express.js**. Supports role-based access, real-time UI updates, and containerized deployment via Docker
 ## 🚀 Features
 
 - 🔄 Company switcher with live metrics
