@@ -3,7 +3,7 @@ import { AppProvider } from "./context/AppContext";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import Dashboard from './pages/Dashboard';
 import Login from "./components/Login";
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./routes/ProtectedRoute";
 import Unauthorized from "./components/Unauthorized";
 import Navbar from "./components/Navbar";
 import './App.css';
